@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "Custom OpenSSL buildpack"
+exit 0

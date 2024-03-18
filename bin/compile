@@ -1,0 +1,20 @@
+#!/bin/sh
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+echo "-----> Установка OpenSSL 1.1.1"
+
+OPENSSL_VERSION="1.1.1"
+
+cd /tmp
+wget https://www.openssl.org/source/openssl-$OPENSSL_VERSION.tar.gz
+tar -xzf openssl-$OPENSSL_VERSION.tar.gz
+cd openssl-$OPENSSL_VERSION
+./config --prefix=$BUILD_DIR/.heroku/openssl --openssldir=$BUILD_DIR/.heroku/openssl
+make && make install
+
+echo "export PATH=\"$BUILD_DIR/.heroku/openssl/bin:\$PATH\"" > $BUILD_DIR/.profile.d/openssl.sh
+echo "export LD_LIBRARY_PATH=\"$BUILD_DIR/.heroku/openssl/lib:\$LD_LIBRARY_PATH\"" >> $BUILD_DIR/.profile.d/openssl.sh
+
+echo "-----> OpenSSL 1.1.1 установлен"
